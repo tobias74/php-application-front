@@ -1,0 +1,12 @@
+{
+    "name": "tobias74/php-application-front",
+    "description": "a simple front-controller for php applications",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PhpApplicationFront\\": "src/"
+        }
+    },
+    "require": {}
+}
