@@ -6,7 +6,17 @@ abstract class AbstractActionController extends \PhpSmallFront\AbstractActionCon
   use GetSetTrait; 
   
   protected $userSession;
+  protected $sessionFacade;
 
+
+  protected function getSessionFacade()
+  {
+    if (!$this->sessionFacade)
+    {
+      $this->sessionFacade = $this->getSessionFacadeProvider()->provide( $this->getLoggedInUser() );
+    }
+    return $this->sessionFacade;
+  }
 
   protected function getUserSession() 
   {
@@ -27,7 +37,7 @@ abstract class AbstractActionController extends \PhpSmallFront\AbstractActionCon
   {
     if ($this->getLoggedInUserId())
     {
-      $loggedInUser = $this->getFacade()->getUserById( $this->getLoggedInUserId() );
+      $loggedInUser = $this->getUserById( $this->getLoggedInUserId() );
     }
     else
     {
@@ -144,33 +154,4 @@ abstract class AbstractActionController extends \PhpSmallFront\AbstractActionCon
 
 
 
-  protected function requestTranscoding($id)
-  {
-    $videoUrl = $this->getS3Service()->getPresignedUrl($id'+7 days');
-
-    $pairs = [
-      [
-        'quality' => 'medium',
-        'format' => 'webm'
-      ],
-      [
-        'quality' => 'medium',
-        'format' => 'ogg'
-      ],
-      [
-        'quality' => 'medium',
-        'format' => 'mp4'
-      ],
-      [
-        'quality' => 'medium',
-        'format' => 'jpg'
-      ]
-    ];
-    
-    foreach ($pairs as $pair)
-    {
-      $spec = $this->getVideoSpec( $pair['format'], $pair['quality'] );
-      $values = $this->getMediaCacheService()->getCachedVideo($videoUrl, $station->getId(), $spec);
-    }
-  }
 }

@@ -8,13 +8,13 @@ trait GetSetTrait
   {
     if (substr($name,0,3) == "set")
     {
-      $memberName = substr($name, 3);
+      $memberName = lcfirst(substr($name, 3));
       $memberValue = $parameters[0];
       $this->$memberName = $memberValue;
     }
     elseif (substr($name,0,3) == "get")
     {
-      $memberName = substr($name, 3);
+      $memberName = lcfirst(substr($name, 3));
       if (isset($this->$memberName))
       {
         return $this->$memberName;
