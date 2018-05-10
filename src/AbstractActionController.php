@@ -3,29 +3,7 @@ namespace PhpApplicationFront;
 
 abstract class AbstractActionController extends \PhpSmallFront\AbstractActionController
 {
-  use GetSetTrait; 
-  
-  protected $userSession;
-  protected $sessionFacade;
-
-
-  protected function getSessionFacade()
-  {
-    if (!$this->sessionFacade)
-    {
-      $this->sessionFacade = $this->getSessionFacadeProvider()->provide( $this->getLoggedInUser() );
-    }
-    return $this->sessionFacade;
-  }
-
-  protected function getUserSession() 
-  {
-    if (!$this->userSession)
-    {
-      $this->userSession = $this->getUserSessionRecognizer()->recognizeAuthenticatedUser();
-    }
-    return $this->userSession;
-  }
+  use GetSetTrait,SessionTrait; 
 
   protected function getAuth0()
   {

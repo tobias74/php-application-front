@@ -56,7 +56,7 @@ class MediaActionController extends AbstractActionController
 
   protected function needsToBeAllowedToView($id)
   {
-    if (!$this->getStationAccessResolver()->isAllowedToView($id))
+    if (!$this->getAccessResolver()->isAllowedToView($id))
     {
       throw new \Exception("not allowed to view media");
     }
