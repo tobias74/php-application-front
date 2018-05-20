@@ -24,6 +24,18 @@ trait GetSetTrait
         throw new \ErrorException("bad coding, this member does not exist: $name in getsetrait.");
       }
     }
+    elseif (substr($name,0,3) == "has")
+    {
+      $memberName = lcfirst(substr($name, 3));
+      if (isset($this->$memberName))
+      {
+        return true;
+      }
+      else 
+      {
+        return false;
+      }
+    }
     else
     {
       throw new \ErrorException("bad coding, this funciton does not exist: $name in getsetrait.");

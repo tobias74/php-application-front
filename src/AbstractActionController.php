@@ -3,13 +3,36 @@ namespace PhpApplicationFront;
 
 abstract class AbstractActionController extends \PhpSmallFront\AbstractActionController
 {
+  protected $startTime = false;
+  
   use GetSetTrait,SessionTrait; 
+
+
+  protected function startTimer()
+  {
+    $this->startTime = microtime(true);
+  }
+  
+  protected function reportTimer()
+  {
+    if ($this->hasProfiler())
+    {
+      header('ZEITFADEN-TIRO: '.json_encode($this->getProfiler()->getHash()));
+    }
+
+    if ($this->startTime)
+    {
+      $endTime = microtime(true);
+      $duration = $endTime-$this->startTime;
+      header('ZEITFADEN-TIMER: '.$duration);    
+    }
+  }
+
 
   protected function getAuth0()
   {
     return $this->getUserSession()->getAuth0();
   }
-  
 
   protected function render($templateName, $data)
   {
