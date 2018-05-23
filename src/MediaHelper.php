@@ -49,7 +49,7 @@ class MediaHelper
   }
     
     
-  protected function requestTranscoding($id)
+  public function requestTranscoding($id)
   {
     $videoUrl = $this->getFileService()->getExternalUri($id);
 
@@ -75,7 +75,7 @@ class MediaHelper
     foreach ($pairs as $pair)
     {
       $spec = $this->getVideoSpec( $pair['format'], $pair['quality'] );
-      $values = $this->getMediaCacheService()->getCachedVideo($videoUrl, $station->getId(), $spec);
+      $values = $this->getMediaCacheService()->getCachedVideo($videoUrl, $id, $spec);
     }
   }
     
