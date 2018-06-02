@@ -44,6 +44,31 @@ class SugarloafApplication
       return $dependencyManager;
     }
     
+
+    protected function getRouteConfiguration()
+    {
+      $dir_iterator = new \RecursiveDirectoryIterator( $this->config['routeConfigurationFolder'] );
+      $iterator = new \RecursiveIteratorIterator($dir_iterator, \RecursiveIteratorIterator::SELF_FIRST);
+      
+      $routeConfiguration = array();
+      
+      foreach ($iterator as $file) 
+      {
+        if (!is_dir($file))
+        {
+          $jsonData = json_decode(file_get_contents($file), true);
+          $routeConfiguration = array_merge($routeConfiguration, $jsonData);
+        }
+      }
+      
+      return $routeConfiguration;
+    }
+    
+    
+    public function getService($serviceName, $parameters = array())
+    {
+      return $this->getDependencyManager()->get($serviceName, $parameters);
+    }
     
     public function run()
     {
@@ -59,7 +84,7 @@ class SugarloafApplication
         
         $application = new \PhpSmallFront\Application(array(
           'controllerProvider' => $controllerProvider,
-          'routeConfiguration' => $this->config['routeConfiguration']
+          'routeConfiguration' => $this->getRouteConfiguration()
         ));
         
         $application->run();
