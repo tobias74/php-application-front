@@ -15,7 +15,7 @@ abstract class AbstractActionController extends \PhpSmallFront\AbstractActionCon
   
   protected function reportTimer()
   {
-    if ($this->hasProfiler())
+    if ($this->issetProfiler())
     {
       header('ZEITFADEN-TIRO: '.json_encode($this->getProfiler()->getHash()));
     }

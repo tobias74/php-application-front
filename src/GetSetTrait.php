@@ -24,9 +24,9 @@ trait GetSetTrait
         throw new \ErrorException("bad coding, this member does not exist: $name in getsetrait.");
       }
     }
-    elseif (substr($name,0,3) == "has")
+    elseif (substr($name,0,5) == "isset")
     {
-      $memberName = lcfirst(substr($name, 3));
+      $memberName = lcfirst(substr($name, 5));
       if (isset($this->$memberName))
       {
         return true;
