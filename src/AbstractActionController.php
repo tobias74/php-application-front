@@ -4,8 +4,9 @@ namespace PhpApplicationFront;
 abstract class AbstractActionController extends \PhpSmallFront\AbstractActionController
 {
   protected $startTime = false;
+  protected $userSession;
   
-  use GetSetTrait,SessionTrait; 
+  use GetSetTrait, SessionTrait; 
 
 
   protected function startTimer()
@@ -29,10 +30,6 @@ abstract class AbstractActionController extends \PhpSmallFront\AbstractActionCon
   }
 
 
-  protected function getAuth0()
-  {
-    return $this->getUserSession()->getAuth0();
-  }
 
   protected function render($templateName, $data)
   {
@@ -75,50 +72,7 @@ abstract class AbstractActionController extends \PhpSmallFront\AbstractActionCon
     }
   }
 
-  public function getLoggedInUserId()
-  {
-    $userId = $this->getUserSession()->getLoggedInUserId();
-    if ($userId === '')
-    {
-      $userId = false;
-    }
 
-    return $userId;
-  }
-
-
-  protected function getLoggedInUser()
-  {
-    $userId = $this->getUserSession()->getLoggedInUserId();
-    return $this->getUserById($userId);
-  }
-
-  public function getUserById($userId)
-  {
-    return $this->getUserSessionRecognizer()->getUserById($userId);
-  }
-
-  public function getUsersByIds($userIds) 
-  {
-    $allUsers = array();
-    foreach ($userIds as $userId) {
-      $allUsers[] = $this->getUserById($userId);
-    }
-    return $allUsers;
-  }
-
-  public function getDisplayNameByUserId($userId)
-  {
-    try
-    {
-      $user = $this->getUserById($userId);
-      return $user->displayName;
-    }
-    catch (\PhpCrudMongo\NoMatchException $e)
-    {
-      return "unknown user";
-    }
-  }
 
   protected function ensureRequestOwner()
   {
@@ -148,10 +102,6 @@ abstract class AbstractActionController extends \PhpSmallFront\AbstractActionCon
   }
 
 
-  protected function isUserLoggedIn()
-  {
-    return $this->getUserSession()->isUserLoggedIn();
-  }
 
 
 
