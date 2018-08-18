@@ -5,6 +5,17 @@ trait SessionTrait
 {
 
   protected $userSession;
+  protected $sessionFacade;
+
+  protected function getSessionFacade()
+  {
+    if (!$this->sessionFacade)
+    {
+      $user = $this->getUserSession()->getLoggedInUser();
+      $this->sessionFacade = $this->getSessionFacadeProvider()->provide( $user );
+    }
+    return $this->sessionFacade;
+  }
   
 
   protected function getAuth0()
