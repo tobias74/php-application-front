@@ -77,7 +77,7 @@ trait SessionTrait
       $user = $this->getUserById($userId);
       return $user->displayName;
     }
-    catch (\PhpCrudMongo\NoMatchException $e)
+    catch (\Speckvisit\Crud\MongoDb\NoMatchException $e)
     {
       return "unknown user";
     }

@@ -70,19 +70,28 @@ class SugarloafApplication
       return $this->getDependencyManager()->get($serviceName, $parameters);
     }
     
+    public function setSessionProvider($val)
+    {
+      $this->sessionProvider = $val;
+    }
+
+    protected function getSession()
+    {
+        $dependencyManager = $this->getDependencyManager();
+        $session = $dependencyManager->get( $this->config['sessionInstanceName'] );
+        $session->start();
+        return $session;
+    }
+    
     public function run()
     {
-      
         // at this piont I want to create a session, start it, and pass it into the controller to use it,
         // the controllers should not create their own session, I want to make their context from here
-
-        $dependencyManager = $this->getDependencyManager();
-
-        $session = $dependencyManager->get('SymfonySession');
-        $session->start();        
+        $session = $this->getSession();
 
         $renderer = new \PhpSmallFront\TwigRenderer( $this->config['templateFolder'] );
-        
+
+        $dependencyManager = $this->getDependencyManager();
 
         $controllerProvider = function($controllerName, $routeParameters) use ($dependencyManager, $renderer, $session) {
             return $dependencyManager->get($controllerName, [$routeParameters, $renderer, $session]);
