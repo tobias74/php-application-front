@@ -87,7 +87,14 @@ class SugarloafApplication
     {
         // at this piont I want to create a session, start it, and pass it into the controller to use it,
         // the controllers should not create their own session, I want to make their context from here
-        $session = $this->getSession();
+        if (isset($this->config['sessionInstanceName']))
+        {
+          $session = $this->getSession();
+        }
+        else
+        {
+          $session = false;
+        }
 
         $renderer = new \PhpSmallFront\TwigRenderer( $this->config['templateFolder'] );
 
