@@ -96,7 +96,14 @@ class SugarloafApplication
           $session = false;
         }
 
-        $renderer = new \PhpSmallFront\TwigRenderer( $this->config['templateFolder'] );
+        if (isset($this->config['templateFolder']))
+        {
+          $renderer = new \PhpSmallFront\TwigRenderer( $this->config['templateFolder'] );
+        }
+        else
+        {
+          $renderer = false;
+        }
 
         $dependencyManager = $this->getDependencyManager();
 
